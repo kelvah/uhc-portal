@@ -162,13 +162,11 @@ When adding a component to storybook, please create stories in separate files us
 
 You can have a look at storybook docs for more info about [how to write stories](https://storybook.js.org/docs/writing-stories).
 
-## Merge Request review
+## Pull Requests 
 
-- For external contributors: If you need a merge request review, please message the OCM UI team at the `#ocm-osd-ui` slack channel.
-- Code that changes behavior requires a test
-- When you touch a component without tests add one
-- Large merge requests should be resubmitted in smaller chunks
-- Test broad changes locally
+Please follow the guidelines described in the [Pull Request Process document](./pull-request-process.md) when opening new PRs.
+
+For external contributors: If you need a pull request review, please message the OCM UI team at the `#ocm-osd-ui` Slack channel.
                                                               
 ## Information security
 
