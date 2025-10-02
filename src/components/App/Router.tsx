@@ -53,6 +53,7 @@ import GetStartedWithROSA from '../clusters/wizards/rosa/CreateRosaGetStarted';
 import EntitlementConfig from '../common/EntitlementConfig/index';
 import TermsGuard from '../common/TermsGuard';
 import Dashboard from '../dashboard';
+import { Dashboard as NewDashboard } from '~/pages/Dashboard';
 import DownloadsPage from '../downloads/DownloadsPage';
 import Overview from '../overview';
 import Quota from '../quota';
@@ -219,6 +220,7 @@ const Router: React.FC<RouterProps> = ({ planType, clusterId, externalClusterId 
         <Route path="/quota" element={<Quota />} />
         <Route path="/archived" element={<ArchivedClusterListMultiRegion getMultiRegion />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/newdashboard" element={<NewDashboard />} />
         <Route path="/overview/rosa/hands-on" element={<RosaHandsOnPage />} />
         <Route path="/overview/rosa" element={<ServicePage serviceName="ROSA" />} />
         <Route path="/overview/osd" element={<ServicePage serviceName="OSD" />} />

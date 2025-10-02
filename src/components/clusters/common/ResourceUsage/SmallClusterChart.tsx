@@ -15,6 +15,7 @@ type SmallClusterChartProps = {
   used?: number;
   total?: number;
   unit?: Unit;
+  unitLabel?: string;
   availableTitle?: string;
   usedTitle?: string;
   humanize?: boolean;
@@ -25,19 +26,23 @@ const SmallClusterChart = ({
   used,
   total,
   unit,
+  unitLabel,
   humanize,
   donutId,
   usedTitle,
   availableTitle,
 }: SmallClusterChartProps) => {
-  const format = useMemo(() => (humanize ? humanizeValueWithUnit : roundValueWithUnit), [humanize]);
-  const unitValue = useMemo(() => (unit ?? 'B') as Unit, [unit]);
+  const format = useMemo(
+    () => (humanize && !unitLabel ? humanizeValueWithUnit : roundValueWithUnit),
+    [humanize, unitLabel],
+  );
+  const unitValue = useMemo(() => (unitLabel ?? unit ?? 'B') as Unit, [unit, unitLabel]);
 
   const [formattedUsed, setFormattedUsed] = useState<ValueWithUnits>();
   const [formattedTotal, setFormattedTotal] = useState<ValueWithUnits>();
   const [formattedUnused, setFormattedUnused] = useState<ValueWithUnits>();
   const [usedPercentage, setUsedPercentage] = useState<number>();
-  const [unusedPrecentage, setUnusedPrecentage] = useState<number>();
+  const [unusedPercentage, setUnusedPercentage] = useState<number>();
 
   useEffect(() => {
     if (used && total && unitValue) {
@@ -48,13 +53,13 @@ const SmallClusterChart = ({
       // Step 1: used / total * 100 - calculate "used" in percentage out of the total
       // Step 2: Math.round(Step1 * 100) / 100 - round to 2 decimal places
       setUsedPercentage(Math.round((used / total) * 100 * 100) / 100);
-      setUnusedPrecentage(Math.round(((total - used) / total) * 100 * 100) / 100);
+      setUnusedPercentage(Math.round(((total - used) / total) * 100 * 100) / 100);
     } else {
       setFormattedUsed(format(0, unitValue));
       setFormattedTotal(format(0, unitValue));
       setFormattedUnused(format(0, unitValue));
       setUsedPercentage(0);
-      setUnusedPrecentage(0);
+      setUnusedPercentage(0);
     }
   }, [used, total, unitValue, format]);
 
@@ -67,7 +72,7 @@ const SmallClusterChart = ({
             labels={({ datum }) => `${datum.x}`}
             data={[
               { x: `${formattedUsed?.value} ${formattedUsed?.unit}`, y: usedPercentage },
-              { x: `${formattedUnused?.value} ${formattedUnused?.unit}`, y: unusedPrecentage },
+              { x: `${formattedUnused?.value} ${formattedUnused?.unit}`, y: unusedPercentage },
             ]}
             constrainToVisibleArea
             legendData={[

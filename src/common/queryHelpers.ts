@@ -250,4 +250,5 @@ export {
   sqlString,
   getQueryParam,
   deleteQueryParam,
+  QueryObject,
 };
