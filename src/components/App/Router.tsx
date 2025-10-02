@@ -22,7 +22,9 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 
 import { Navigate, ocmBaseName } from '~/common/routing';
+import { normalizedProducts } from '~/common/subscriptionTypes';
 import ClusterDetailsClusterOrExternalIdMR from '~/components/clusters/ClusterDetailsMultiRegion/ClusterDetailsClusterOrExternalId';
+import { Dashboard as NewDashboard } from '~/pages/Dashboard';
 import {
   AUTO_CLUSTER_TRANSFER_OWNERSHIP,
   HYPERSHIFT_WIZARD_FEATURE,
@@ -31,7 +33,6 @@ import { useFeatureGate } from '~/queries/featureGates/useFetchFeatureGate';
 import { isRestrictedEnv } from '~/restrictedEnv';
 import apiRequest from '~/services/apiRequest';
 
-import { normalizedProducts } from '../../common/subscriptionTypes';
 import AIRootApp from '../AIComponents/AIRootApp';
 import CLILoginPage from '../CLILoginPage/CLILoginPage';
 import ArchivedClusterListMultiRegion from '../clusters/ArchivedClusterListMultiRegion';
@@ -53,7 +54,6 @@ import GetStartedWithROSA from '../clusters/wizards/rosa/CreateRosaGetStarted';
 import EntitlementConfig from '../common/EntitlementConfig/index';
 import TermsGuard from '../common/TermsGuard';
 import Dashboard from '../dashboard';
-import { Dashboard as NewDashboard } from '~/pages/Dashboard';
 import DownloadsPage from '../downloads/DownloadsPage';
 import Overview from '../overview';
 import Quota from '../quota';

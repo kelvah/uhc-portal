@@ -2,8 +2,7 @@ import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
 
 import { GetClusterHistoryParams } from '~/services/serviceLogService';
-
-import { ViewOptions } from '../types/types';
+import { ViewOptions } from '~/types/types';
 
 import { allowedProducts, productFilterOptions } from './subscriptionTypes';
 

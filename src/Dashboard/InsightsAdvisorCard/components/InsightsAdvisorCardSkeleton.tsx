@@ -13,7 +13,7 @@ const InsightsAdvisorCardSkeleton = () => (
         </GridItem>
         <GridItem span={12} style={{ marginLeft: 'var(--pf-v5-global--spacer--md)' }}>
           <Grid hasGutter>
-            {[...Array(4).keys()].map((e) => (
+            {[...Array(4).keys()].map((_e) => (
               <GridItem span={2}>
                 <Skeleton width="80%" shape="circle" />
               </GridItem>

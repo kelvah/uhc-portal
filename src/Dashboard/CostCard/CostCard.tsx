@@ -6,8 +6,8 @@ import { ocmBaseName } from '~/common/routing';
 import { CostCardSkeleton } from '~/Dashboard/CostCard/components/CostCardSkeleton';
 import { CostEmptyState } from '~/Dashboard/CostCard/components/CostEmptyState';
 import { CostSummary } from '~/Dashboard/CostCard/components/CostSummary';
-import { SchemaSourcePagination } from '~/types/cost-management.v1';
 import { CostReport } from '~/Dashboard/CostCard/costTypes';
+import { SchemaSourcePagination } from '~/types/cost-management.v1';
 
 import './CostCard.scss';
 

@@ -2,12 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { ChartDonut } from '@patternfly/react-charts/victory';
 
-import {
-  humanizeValueWithUnit,
-  roundValueWithUnit,
-  Unit,
-  ValueWithUnits,
-} from '../../../../common/units';
+import { humanizeValueWithUnit, roundValueWithUnit, Unit, ValueWithUnits } from '~/common/units';
 
 import './SmallClusterChart.scss';
 
