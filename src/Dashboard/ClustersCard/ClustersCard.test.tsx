@@ -57,11 +57,7 @@ describe('ClustersCard', () => {
     const { user } = render(<ClustersCard numberOfClusters={150} status="success" />);
 
     // Act
-    await user.click(
-      screen.getByRole('radio', {
-        name: /clusters 150/i,
-      }),
-    );
+    await user.click(screen.getByRole('button'));
 
     // Assert
     return expect(mockNavigate).toHaveBeenLastCalledWith('/openshift/cluster-list', undefined);
