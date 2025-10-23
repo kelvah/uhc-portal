@@ -25,7 +25,7 @@ Slack channels: `#service-development` for OCM in general, `#ocm-osd-ui` for UI.
 
 For a first time setup, it's required to run `make dev-env-setup`.
 
-This will ask for your `sudo` password, to add some entries to `/etc/hosts`.
+It will ask for your `sudo` password, to add some entries to `/etc/hosts`.
  
 If you intend to contribute code, also refer to the [Setup section of the Contributing guide](docs/contributing.md#setup).
 
