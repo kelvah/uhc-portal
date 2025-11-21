@@ -1,8 +1,8 @@
-# Coding guidelines
+# Coding Guidelines
 
-This document contains coding guidelines for the OCM UI project. It includes best practices, patterns to follow and anti-patterns to avoid.
+This document contains coding guidelines for the OCM UI project. It includes best practices, patterns to follow and antipatterns to avoid.
 
-## Component structure
+## Component Structure
 
 Components should be organized by features. Each feature is represented by a container component in charge of handling logic and render other presentational components. 
 
@@ -17,7 +17,7 @@ Use the following patterns when designing components:
 - Presentational components should not contain any domain/business logic
 - Avoid `setTimeouts`. They are flaky and usually a _hack_, always provide a comment on _why_ you are using them. This doesn't affect if the "code runs" or not most of the time, but they can introduce subtle bugs that can grow into big issues that aren't obvious until someone goes in and has to spend a lot of time refactoring everything.
 
-## React specific guidelines
+## React Specific Patterns
 
 - Avoid using `useMemo` for processes that are not computationally expensive
 - Functions are memoized with `useCallback` only when necessary:
@@ -28,14 +28,14 @@ Use the following patterns when designing components:
   * Simple event handlers that aren't passed as props
   * Functions without dependencies or only used within the same component
 - All hook dependencies (`useEffect`, `useMemo`, `useCallback`) use referentially stable variables
-- No `useEffect`s that take incoming props and computes them for a local `useState` – this is useMemo with extra steps
+- No `useEffect`s that take incoming props and computes them for a local `useState`, this is useMemo with extra steps
 - Follow the [exhaustive-deps rule](https://react.dev/reference/eslint-plugin-react-hooks/lints/exhaustive-deps). If you encounter a file where the ESLint rule is ignored (`// eslint-disable-next-line react-hooks/exhaustive-deps`), re-enable it and fix the dependency array. If for any reason the rule has to be skipped you have to provide a comment explaining why.
 
 ### On `useEffect`
 
 Make sure to follow React guidelines on `useEffect`: [You Might Not Need an Effect](https://react.dev/learn/you-might-not-need-an-effect)
 
-Common cases where useEffect is NOT needed:
+Common cases where `useEffect` is NOT needed:
 
 * Transforming data for rendering (use variables or useMemo instead)
 * Handling user events (use event handlers instead)
@@ -48,18 +48,18 @@ Only use useEffect for:
 * Synchronizing with external systems (APIs, DOM, third-party libraries)
 * Cleanup that must happen when component unmounts
 
-Avoid putting dependent logic inside `useEffect`, it causes misdirection of what the logic is doing. Choose to explicitly define logic rather than depend on implicit reactive behavior. Chose state machine over multiple `useEffect`/`useState`.
+Avoid putting dependent logic inside `useEffect`, it causes misdirection of what the logic is doing. Choose to explicitly define logic rather than depend on implicit reactive behavior. Choose state machines over multiple `useEffect`/`useState`.
 
 ## Avoid Custom Styling
 
 It is tempting to “just add a bit of CSS” for minor tweaks, but this usually indicates we are drifting away from native PatternFly behaviour and should reconsider the approach. If you feel the need to do CSS or applying "styles" or "className" properties to "nudge" or minorly manipulate your UI rendering, you're likely going in the wrong direction.
 
-Using PF utility classes to enforce spacing or to fix layout issues is also considered problematic. Spacing and responsiveness should be handled using layout components (`Stack`, `Flex`, `Grid`, etc.) with a proper configuration. Exceptions can be made but they have to be justified.
+Using PF utility classes to enforce spacing or to fix layout issues is also considered problematic. Spacing and responsiveness should be handled using layout components (`Stack`, `Flex`, `Grid`, etc.) with a proper configuration. Exceptions can be made, but they have to be justified.
 
 Sometimes we find scenarios where PF doesn't quite manage something as we wanted. This is usually related to complex components structures or to components that do not support yet the feature we are trying to implement.
 This should be a rare exception, and we should resort to it sparingly. The more we add customizations, the more we have to deal with PF upgrades breaking them.
 
-## Data loading and error states
+## Data Loading and Error States
 
 When displaying data retrieved with asynchronous operations, always take care of the loading and error state of those operations.
 
@@ -75,7 +75,7 @@ Avoid using `any` or [type assertions](https://www.typescriptlang.org/docs/handb
 
 Avoid default exports. All exports should be explicit. Avoid barrel files (index files) to re-export modules.
 
-## Third-part libraries
+## Third-part Libraries
 
 ### Redux
 
