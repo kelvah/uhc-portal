@@ -78,7 +78,7 @@ Avoid using `any` or [type assertions](https://www.typescriptlang.org/docs/handb
 Every UI component, representing a feature or a reusable UI block should be properly documented. This is crucial for many reasons:
 - Allow to easily discover what is already implemented without having to browse the entire application
 - Allow to discover all possible statuses a components could support, including error states, without having to resort to elaborate mocking
-- Clearly indentify a component interface and its dependencies
+- Clearly identify a component interface and its dependencies
 - Improve consistency across components solving similar problems
 
 We have [a Storybook instance](contributing.md#storybook) for this purpose. Every new component should be documented with a story.
