@@ -57,6 +57,14 @@ Using PF utility classes to enforce spacing or to fix layout issues is also cons
 Sometimes we find scenarios where PF doesn't quite manage something as we wanted. This is usually related to complex components structures or to components that do not support yet the feature we are trying to implement.
 This should be a rare exception, and we should resort to it sparingly. The more we add customizations, the more we have to deal with PF upgrades breaking them.
 
+### Data loading and error states
+
+When displaying data retrieved with asynchronous operations, always take care of the loading and error state of those operations.
+
+While data is being loaded, a proper UI state should be displayed. PF offers `Skeleton` and `Spinner` components for this purpose. Read the corresponding design guidelines to decide how to design/implement loading case by case.
+
+In a similar way you should always handle possible errors. UIs should not fail silently if something went wrong. PF offers an "Alert" component with general indication in the related design guidelines.
+
 ### TypeScript 
 
 This is a legacy codebase. Not all the code has been migrated to TS. Everytime you encounter JS files, and you change them you are highly encouraged to convert them to TS first. The TS conversion should happen in a separate PR/ticket before further changes are introduced.
@@ -65,12 +73,16 @@ Avoid using `any` or [type assertions](https://www.typescriptlang.org/docs/handb
 
 ### Documenting
 
-Every UI component representing a feature or a reusable UI block should be properly documented. This is crucial for many reasons:
+Every UI component, representing a feature or a reusable UI block should be properly documented. This is crucial for many reasons:
 - Allow to easily discover what is already implemented without having to browse the entire application
-- Allow to discover all possible statuses a components could be, including error states, without having to resort to elaborate mocking
+- Allow to discover all possible statuses a components could support, including error states, without having to resort to elaborate mocking
 - Clearly indentify a component interface and its dependencies
+- Improve consistency across components solving similar problems
 
-We have [a Storybook instance](.docs/contributing.md#storybook) for this purpose. Every new component should be documented with a story.
+We have [a Storybook instance](contributing.md#storybook) for this purpose. Every new component should be documented with a story.
 
 Writing components with clear responsibilities and dependencies is crucial to make it possible to easily document and test them.
 
+### Testing
+
+All code changes must be tested. Follow the [user-centered approach](https://testing-library.com/docs/react-testing-library/intro/#the-problem) introduced by RTL when writing unit tests. You can find more information in the dedicated [unit tests guidelines](unit-testing.md).
