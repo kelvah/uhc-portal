@@ -4,9 +4,11 @@
 
 ### Component structure
 
-Components should be properly broken down into UI elements responsible for a single goal. The main responsibilities of UI components are to display data and handle user interactions.
+Components should be organized by features. Each feature is represented by a container component in charge of handling logic and render other presentational components. 
 
-Use the following patterns when designing them:
+Components should be properly broken down into UI elements responsible for a single goal. The main responsibilities of presentational components are to display data received via props and handle user interactions.
+
+Use the following patterns when designing components:
 - UI components should be a thin wrapper around data, they should handle local state only when necessary
 - Try to flatten the UI state into a basic calculation, deriving data from props and adopting `useState` only if necessary
 - Create a new component abstraction when you're nesting conditional logic, or top level if/else statements. Ternaries are reserved for small, easily readable logic
