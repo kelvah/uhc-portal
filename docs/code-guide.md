@@ -15,7 +15,9 @@ UsersList/
 ├── UsersList.tsx           # Container component
 ├── UsersList.test.tsx      
 ├── useUsersList.ts         # Feature-specific hooks
-├── components/             # Presentational components (only imported by container, folder only if needed)
+├── components/             # Presentational components (only imported by container)
+├── └── UsersTable.tsx      # Only create a folder if you have many
+├── └── UsersToolbar.tsx      
 └── utils/                  # Feature-specific utilities
 ```
 
@@ -29,16 +31,16 @@ Use the following patterns when designing components:
 - Avoid passing whole objects to components when they only need a few properties. It will help clarify which information they rely on.
 - Presentational components should not contain any domain/business logic
 - Avoid putting dependent logic inside `useEffect`, it causes misdirection of what the logic is doing. Choose to explicitly define logic rather than depend on implicit reactive behavior
-- Choose state machines over multiple `useState`, it makes the code harder to reason about
+- Prefer state machines over multiple related `useState` calls. Multiple interdependent state variables make code harder to reason about.
 - Avoid `setTimeouts`. They are flaky and usually a _hack_, always provide a comment on _why_ you are using them. This doesn't affect if the "code runs" or not most of the time, but they can introduce subtle bugs that can grow into big issues that aren't obvious until someone goes in and has to spend a lot of time refactoring everything.
 
 ## React Hooks Patterns
 
 - Avoid using `useMemo` for processes that are not computationally expensive
 - Functions are memoized with `useCallback` only when necessary:
-  * Functions passed as props to child components (to prevent unnecessary re-renders)
   * Functions used as dependencies in `useEffect`, `useMemo`, or other hooks
   * Functions passed to context providers or returned from custom hooks
+  * Functions passed as props to memoized child components (to prevent unnecessary re-renders)
 - Functions are NOT unnecessarily memoized:
   * Simple event handlers that aren't passed as props
   * Functions without dependencies or only used within the same component
@@ -65,7 +67,7 @@ Only use useEffect for:
 
 ## Avoid Custom Styling
 
-It is tempting to “just add a bit of CSS” for minor tweaks, but this usually indicates we are drifting away from native PatternFly behaviour and should reconsider the approach. If you feel the need to add CSS or applying "styles" or "className" properties to "adjust" the UI, you're likely going in the wrong direction.
+It is tempting to “just add a bit of CSS” for minor tweaks, but this usually indicates we are drifting away from native PatternFly behaviour and should reconsider the approach. If you feel the need to add CSS or apply "styles" or "className" properties to "adjust" the UI, you're likely going in the wrong direction.
 
 Using PF utility classes to enforce spacing or to fix layout issues is also considered problematic. Spacing and responsiveness should be handled using layout components (`Stack`, `Flex`, `Grid`, etc.) with a proper configuration. Exceptions can be made, but they have to be justified.
 
@@ -86,10 +88,11 @@ This is a legacy codebase. Not all the code has been migrated to TS. Everytime y
 
 Some general rules to follow:
 - Avoid using `any`. If type information is completely absent and cannot be retrieved, use `unknown` instead and implement type guards 
-- Avoid [type assertions](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions) using `as`. They usually mean you are violating TypeScript indications. You probably have a type error that you are trying to cover up
+- Avoid [type assertions](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions) using `as`. They usually mean you are violating TypeScript indications. You probably have a type error that you are trying to cover up. A rare acceptable exception is when working with DOM APIs, i.e.: `const input = event.target as HTMLInputElement;`
 - Provide fallback values when using optional chaining. Do not use optional chaining as a way to manage the absence of data while loading.
-- Optional types are optional because they are truly optional, not to overcome type errors or because it's easier to implement it
-- Avoid default exports. All exports should be explicit. Avoid barrel files (`index.ts`) to re-export modules.
+- Optional type properties are optional because they are truly optional, not to overcome type errors or because it's easier to implement them
+- Avoid default exports. All exports should be explicit.
+- Avoid barrel files (`index.ts`) to re-export modules. They make refactoring harder, create a circular dependency risk, complicate tree-shaking.
 
 ## Third-part Libraries
 
@@ -107,7 +110,7 @@ Only use lodash when it's needed. Avoid it when it's possible to achieve the sam
 
 Every UI component, representing a feature or a reusable UI block must be properly documented. This is crucial for many reasons:
 - Allow to easily discover what is already implemented without having to browse the entire application
-- Allow to discover all possible statuses supported by a component, including error states, without having to resort to complex mocking
+- Allow developers to discover all possible statuses supported by a component, including error states, without having to resort to complex mocking
 - Clearly identify a component interface and its dependencies
 - Improve consistency across components solving similar problems
 - Share knowledge and avoid accidental single-point expertise
