@@ -40,6 +40,10 @@ It’s not a regular build dependency but is injected by CDN using [EdgeSide Inc
 
 In development, `yarn start` uses the Frontend Components Config (FEC) dev server, which automatically handles Chrome setup by running a containerized Chrome server (requires Podman). FEC manages the development environment including the Chrome container, webpack dev server, and proxying to backend services.
 
+## Code guidelines
+
+Code guidelines are listed [in a separate document](code-guide.md). Make sure to carefully read and understand them before contributing.
+
 ## Code Style
 
 To promote consistency in the code base, OCM follows the JavaScript and React [style guides produced

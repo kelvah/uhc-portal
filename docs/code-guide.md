@@ -4,20 +4,35 @@ This document contains coding guidelines for the OCM UI project. It includes bes
 
 ## Component Structure
 
-Components should be organized by features. Each feature is represented by a container component in charge of handling logic and render other presentational components. 
+Components should be organized by features. Each feature is represented by a container component in charge of handling logic and render other presentational components. The main responsibilities of presentational components are to display data received via props and handle user interactions.
 
-Components should be properly broken down into UI elements responsible for a single goal. The main responsibilities of presentational components are to display data received via props and handle user interactions.
+Components should be properly broken down into UI elements responsible for a single goal. 
+
+Example folder structure for a hypothetical `UsersList` component:
+
+```
+UsersList/
+├── UsersList.tsx           # Container component
+├── UsersList.test.tsx      
+├── useUsersList.ts         # Feature-specific hooks
+├── components/             # Presentational components (only imported by container, folder only if needed)
+└── utils/                  # Feature-specific utilities
+```
+
+## Coding Patterns
 
 Use the following patterns when designing components:
 - UI components should be a thin wrapper around data, they should handle local state only when necessary.
-- Try to flatten the UI state into a basic calculation, deriving data from props and adopting `useState` only if necessary.
+- Try to flatten the UI state into a basic calculation, deriving data from props
 - Create a new component abstraction when you're nesting conditional logic, or top level if/else statements. Ternaries are reserved for small, easily readable logic.
 - When complex data manipulation and logic is necessary, make use of custom hooks.
-- Avoid passing whole objects to components when they only need a few properties. It will help clarify which information the component relies on.
+- Avoid passing whole objects to components when they only need a few properties. It will help clarify which information they rely on.
 - Presentational components should not contain any domain/business logic
+- Avoid putting dependent logic inside `useEffect`, it causes misdirection of what the logic is doing. Choose to explicitly define logic rather than depend on implicit reactive behavior
+- Choose state machines over multiple `useState`, it makes the code harder to reason about
 - Avoid `setTimeouts`. They are flaky and usually a _hack_, always provide a comment on _why_ you are using them. This doesn't affect if the "code runs" or not most of the time, but they can introduce subtle bugs that can grow into big issues that aren't obvious until someone goes in and has to spend a lot of time refactoring everything.
 
-## React Specific Patterns
+## React Hooks Patterns
 
 - Avoid using `useMemo` for processes that are not computationally expensive
 - Functions are memoized with `useCallback` only when necessary:
@@ -29,9 +44,9 @@ Use the following patterns when designing components:
   * Functions without dependencies or only used within the same component
 - All hook dependencies (`useEffect`, `useMemo`, `useCallback`) use referentially stable variables
 - No `useEffect`s that take incoming props and computes them for a local `useState`, this is useMemo with extra steps
-- Follow the [exhaustive-deps rule](https://react.dev/reference/eslint-plugin-react-hooks/lints/exhaustive-deps). If you encounter a file where the ESLint rule is ignored (`// eslint-disable-next-line react-hooks/exhaustive-deps`), re-enable it and fix the dependency array. If for any reason the rule has to be skipped you have to provide a comment explaining why.
+- Make sure the [exhaustive-deps rule](https://react.dev/reference/eslint-plugin-react-hooks/lints/exhaustive-deps) is applied. If you encounter a file where the ESLint rule is ignored (`// eslint-disable-next-line react-hooks/exhaustive-deps`), re-enable it and fix the dependency array. If for any reason the rule has to be skipped, provide a comment explaining why.
 
-### On `useEffect`
+### More On `useEffect`
 
 Make sure to follow React guidelines on `useEffect`: [You Might Not Need an Effect](https://react.dev/learn/you-might-not-need-an-effect)
 
@@ -48,11 +63,9 @@ Only use useEffect for:
 * Synchronizing with external systems (APIs, DOM, third-party libraries)
 * Cleanup that must happen when component unmounts
 
-Avoid putting dependent logic inside `useEffect`, it causes misdirection of what the logic is doing. Choose to explicitly define logic rather than depend on implicit reactive behavior. Choose state machines over multiple `useEffect`/`useState`.
-
 ## Avoid Custom Styling
 
-It is tempting to “just add a bit of CSS” for minor tweaks, but this usually indicates we are drifting away from native PatternFly behaviour and should reconsider the approach. If you feel the need to do CSS or applying "styles" or "className" properties to "nudge" or minorly manipulate your UI rendering, you're likely going in the wrong direction.
+It is tempting to “just add a bit of CSS” for minor tweaks, but this usually indicates we are drifting away from native PatternFly behaviour and should reconsider the approach. If you feel the need to add CSS or applying "styles" or "className" properties to "adjust" the UI, you're likely going in the wrong direction.
 
 Using PF utility classes to enforce spacing or to fix layout issues is also considered problematic. Spacing and responsiveness should be handled using layout components (`Stack`, `Flex`, `Grid`, etc.) with a proper configuration. Exceptions can be made, but they have to be justified.
 
@@ -69,11 +82,14 @@ In a similar way you should always handle possible errors. UIs should not fail s
 
 ## TypeScript 
 
-This is a legacy codebase. Not all the code has been migrated to TS. Everytime you encounter JS files, and you change them you are highly encouraged to convert them to TS first. The TS conversion should happen in a separate PR/ticket before further changes are introduced.
+This is a legacy codebase. Not all the code has been migrated to TS. Everytime you encounter JS files and you change them you are highly encouraged to convert them to TS first. The TS conversion should happen in a separate PR/ticket before further changes are introduced.
 
-Avoid using `any` or [type assertions](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions). They are escape hatches, they should be used only when there are no alternatives. Explain _why_ you resorted to them inside PR comments.
-
-Avoid default exports. All exports should be explicit. Avoid barrel files (index files) to re-export modules.
+Some general rules to follow:
+- Avoid using `any`. If type information is completely absent and cannot be retrieved, use `unknown` instead and implement type guards 
+- Avoid [type assertions](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions) using `as`. They usually mean you are violating TypeScript indications. You probably have a type error that you are trying to cover up
+- Provide fallback values when using optional chaining. Do not use optional chaining as a way to manage the absence of data while loading.
+- Optional types are optional because they are truly optional, not to overcome type errors or because it's easier to implement it
+- Avoid default exports. All exports should be explicit. Avoid barrel files (`index.ts`) to re-export modules.
 
 ## Third-part Libraries
 
@@ -83,13 +99,18 @@ We still use Redux for data fetching and state management in multiple areas, but
 
 We switched to [TanStack Query](https://tanstack.com/query/latest) for data-fetching and async state management.
 
+### Lodash
+
+Only use lodash when it's needed. Avoid it when it's possible to achieve the same result with plain TS/JS. A common example is `lodash/get`, you can replace it with optional chaining and nullish coalescing.
+
 ## Documenting
 
-Every UI component, representing a feature or a reusable UI block should be properly documented. This is crucial for many reasons:
+Every UI component, representing a feature or a reusable UI block must be properly documented. This is crucial for many reasons:
 - Allow to easily discover what is already implemented without having to browse the entire application
-- Allow to discover all possible statuses a components could support, including error states, without having to resort to elaborate mocking
+- Allow to discover all possible statuses supported by a component, including error states, without having to resort to complex mocking
 - Clearly identify a component interface and its dependencies
 - Improve consistency across components solving similar problems
+- Share knowledge and avoid accidental single-point expertise
 
 We have [a Storybook instance](contributing.md#storybook) for this purpose. Every new component should be documented with a story.
 
