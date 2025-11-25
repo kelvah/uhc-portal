@@ -13,7 +13,7 @@
 - [Code assistants](#code-assistants)
 - [OpenAPI types definitions](#openapi-types-definitions)
 - [Storybook](#storybook)
-- [Merge request review](#merge-request-review)
+- [Pull requests](#pull-requests)
 - [Information security](#information-security)
 
 ## Setup
@@ -164,7 +164,7 @@ When adding a component to storybook, please create stories in separate files us
 
 You can have a look at storybook docs for more info about [how to write stories](https://storybook.js.org/docs/writing-stories).
 
-## Pull Requests 
+## Pull requests
 
 Please follow the guidelines described in the [Pull Request Process document](./pull-request-process.md) when opening new PRs.
 
