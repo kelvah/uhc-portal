@@ -1,11 +1,10 @@
 # Coding Guidelines
 
-This document defines the coding standards for the OCM UI project. All code contributions must follow these guidelines
-to ensure consistency, maintainability, and code quality.
+This document defines the coding standards for the OCM UI project. All code contributions must follow these guidelines to ensure consistency, maintainability, and code quality.
 
 These guidelines serve to:
 - Establish shared conventions for code structure and patterns
-- Improve code review efficiency by setting clear expectations
+- Improve code reviews by setting clear expectations
 - Maintain a consistent, maintainable codebase
 
 Use these guidelines during development and code reviews. When in doubt or if a scenario isn't covered, ask the team for help.
