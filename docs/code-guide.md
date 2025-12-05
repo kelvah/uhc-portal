@@ -11,7 +11,7 @@ Use these guidelines during development and code reviews. When in doubt or if a 
 
 ## Component Structure
 
-Components should be organized by features. Each feature is represented by a container component in charge of handling logic and render other presentational components. The main responsibilities of presentational components are to display data received via props and handle user interactions.
+Components should be organized by features. Each feature is represented by a container component in charge of handling logic and rendering other presentational components. The main responsibilities of presentational components are to display data received via props and handle user interactions.
 
 Components should be properly broken down into UI elements responsible for a single goal. 
 
