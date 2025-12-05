@@ -35,11 +35,11 @@ UsersList/
 Use the following patterns when designing components:
 - UI components should be a thin wrapper around data, they should handle local state only when necessary.
 - Try to flatten the UI state into a basic calculation, deriving data from props
-- Create a new component abstraction when you're nesting conditional logic, or top level if/else statements. Ternaries are reserved for small, easily readable logic.
+- Create a new component abstraction when you're nesting conditional logic or top-level if/else statements. Ternaries are reserved for small, easily readable logic.
 - When complex data manipulation and logic is necessary, make use of custom hooks.
 - Avoid passing whole objects to components when they only need a few properties. It will help clarify which information they rely on.
-- Presentational components should not contain any domain/business logic
-- Avoid putting dependent logic inside `useEffect`, it causes misdirection of what the logic is doing. Choose to explicitly define logic rather than depend on implicit reactive behavior
+- Presentational components should not contain any domain/business logic.
+- Avoid putting dependent logic inside `useEffect`; it causes misdirection of what the logic is doing. Choose to explicitly define logic rather than depend on implicit reactive behavior
 - Prefer state machines over multiple related `useState` calls. Multiple interdependent state variables make code harder to reason about.
 - Avoid `setTimeouts`. They are flaky and usually a _hack_, always provide a comment on _why_ you are using them. This doesn't affect if the "code runs" or not most of the time, but they can introduce subtle bugs that can grow into big issues that aren't obvious until someone goes in and has to spend a lot of time refactoring everything.
 
@@ -54,7 +54,7 @@ Use the following patterns when designing components:
   * Simple event handlers that aren't passed as props
   * Functions without dependencies or only used within the same component
 - All hook dependencies (`useEffect`, `useMemo`, `useCallback`) use referentially stable variables
-- No `useEffect`s that take incoming props and computes them for a local `useState`, this is useMemo with extra steps
+- No `useEffect`s that take incoming props and compute them for a local `useState`, this is `useMemo` with extra steps
 - Make sure the [exhaustive-deps rule](https://react.dev/reference/eslint-plugin-react-hooks/lints/exhaustive-deps) is applied. If you encounter a file where the ESLint rule is ignored (`// eslint-disable-next-line react-hooks/exhaustive-deps`), re-enable it and fix the dependency array. If for any reason the rule has to be skipped, provide a comment explaining why.
 
 ### More On `useEffect`
@@ -76,11 +76,11 @@ Only use useEffect for:
 
 ## Avoid Custom Styling
 
-It is tempting to “just add a bit of CSS” for minor tweaks, but this usually indicates we are drifting away from native PatternFly behaviour and should reconsider the approach. If you feel the need to add CSS or apply "styles" or "className" properties to "adjust" the UI, you're likely going in the wrong direction.
+It is tempting to “just add a bit of CSS” for minor tweaks, but this usually indicates we are drifting away from native PatternFly behavior and should reconsider the approach. If you feel the need to add CSS or apply "styles" or "className" properties to "adjust" the UI, you're likely going in the wrong direction.
 
 Using PF utility classes to enforce spacing or to fix layout issues is also considered problematic. Spacing and responsiveness should be handled using layout components (`Stack`, `Flex`, `Grid`, etc.) with a proper configuration. Exceptions can be made, but they have to be justified inside PR descriptions or comments.
 
-Sometimes we find scenarios where PF doesn't quite manage something as we wanted. This is usually related to complex components structures or to components that do not support yet the feature we are trying to implement.
+Sometimes we find scenarios where PF doesn't quite manage something as we wanted. This is usually related to complex component structures, or to components that do not yet support the feature we are trying to implement.
 This should be a rare exception, and we should resort to it sparingly. The more we add customizations, the more we have to deal with PF upgrades breaking them.
 
 ## Data Loading and Error States
@@ -93,7 +93,7 @@ In a similar way you should always handle possible errors. UIs should not fail s
 
 ## TypeScript 
 
-This is a legacy codebase. Not all the code has been migrated to TS. Everytime you encounter JS files and you change them you are highly encouraged to convert them to TS first. The TS conversion should happen in a separate PR/ticket before further changes are introduced.
+This is a legacy codebase. Not all the code has been migrated to TS. Every time you encounter JS files and change them, you are highly encouraged to convert them to TS first. The TS conversion should happen in a separate PR/ticket before further changes are introduced.
 
 Some general rules to follow:
 - Avoid using `any`. If type information is completely absent and cannot be retrieved, use `unknown` instead and implement type guards 
@@ -103,7 +103,7 @@ Some general rules to follow:
 - Avoid default exports. All exports should be explicit.
 - Avoid barrel files (`index.ts`) to re-export modules. They make refactoring harder, create a circular dependency risk, complicate tree-shaking.
 
-## Third-part Libraries
+## Third-party Libraries
 
 ### Redux
 
@@ -118,7 +118,7 @@ Only use lodash when it's needed. Avoid it when it's possible to achieve the sam
 ## Documenting
 
 Every UI component, representing a feature or a reusable UI block must be properly documented. This is crucial for many reasons:
-- Allow to easily discover what is already implemented without having to browse the entire application
+- Allow developers to easily discover what is already implemented without having to browse the entire application
 - Allow developers to discover all possible statuses supported by a component, including error states, without having to resort to complex mocking
 - Clearly identify a component interface and its dependencies
 - Improve consistency across components solving similar problems
