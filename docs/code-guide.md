@@ -97,7 +97,7 @@ This is a legacy codebase. Not all the code has been migrated to TS. Every time 
 
 Some general rules to follow:
 - Avoid using `any`. If type information is completely absent and cannot be retrieved, use `unknown` instead and implement type guards 
-- Avoid [type assertions](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions) using `as`. They usually mean you are violating TypeScript indications. You probably have a type error that you are trying to bypass. A rare acceptable exception is when working with DOM APIs, i.e.: `const input = event.target as HTMLInputElement;`
+- Avoid [type assertions](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions) using `as`. They usually mean you are violating TypeScript indications. You probably have a type error that you are trying to bypass. A rare acceptable exception is when working with DOM APIs, e.g.: `const input = event.target as HTMLInputElement;`
 - Provide fallback values when using optional chaining. Do not use optional chaining as a way to manage the absence of data while loading.
 - Optional type properties are optional only when they can be optionally passed, not to overcome type errors or because it's easier to implement them
 - Avoid default exports. All exports should be explicit.
