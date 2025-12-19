@@ -45,7 +45,7 @@ Use the following patterns when designing components:
 
 ## React Hooks Patterns
 
-- Avoid using `useMemo` for processes that are not computationally expensive
+- Avoid using `useMemo` for processes that are not [computationally expensive](https://react.dev/learn/you-might-not-need-an-effect#how-to-tell-if-a-calculation-is-expensive)
 - Functions are memoized with `useCallback` only when necessary:
   * Functions used as dependencies in `useEffect`, `useMemo`, or other hooks
   * Functions passed to context providers or returned from custom hooks
