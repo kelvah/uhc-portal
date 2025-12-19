@@ -38,7 +38,23 @@ Use the following patterns when designing components:
 - Create a new component abstraction when you're nesting conditional logic or top-level if/else statements. Ternaries are reserved for small, easily readable logic.
 - When complex data manipulation and logic is necessary, make use of custom hooks.
 - Avoid passing whole objects to components when they only need a few properties. It will help clarify which information they rely on.
-- Presentational components should not contain any domain/business logic.
+- Presentational components should not contain any domain/business logic. Consider the following example:
+  ```tsx
+  // ❌ BAD: Logic is coded inside an input field
+  const SizeInput = (props: { isHypershift: boolean }) => {
+    const { isHypershift } = props;
+    const maxSize = isHypershift ? 200 : 150;
+  
+    return <NumberInput max={maxSize} />;
+  };
+  
+  // ✅ GOOD: Configuration is passed down by parent feature
+  const SizeInput = (props: { maxSize: number }) => {
+    const { maxSize } = props;
+
+    return <NumberInput max={maxSize} />;
+  };  
+  ```
 - Avoid putting dependent logic inside `useEffect`; it causes misdirection of what the logic is doing. Choose to explicitly define logic rather than depend on implicit reactive behavior
 - Prefer state machines over multiple related `useState` calls. Multiple interdependent state variables make code harder to reason about.
 - Avoid `setTimeouts`. They are flaky and usually a _hack_, always provide a comment on _why_ you are using them. This doesn't affect if the "code runs" or not most of the time, but they can introduce subtle bugs that can grow into big issues that aren't obvious until someone goes in and has to spend a lot of time refactoring everything.
