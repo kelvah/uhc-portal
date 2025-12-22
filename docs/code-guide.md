@@ -118,6 +118,7 @@ Some general rules to follow:
 - Optional type properties are optional only when they can be optionally passed, not to overcome type errors or because it's easier to implement them
 - Avoid default exports. All exports should be explicit.
 - Avoid barrel files (`index.ts`) to re-export modules. They make refactoring harder, create a circular dependency risk, complicate tree-shaking.
+- Avoid silencing TS errors with `// @ts-ignore` comments. They should be properly motivated exceptions.
 
 ## Third-party Libraries
 
