@@ -33,8 +33,7 @@ UsersList/
 ## Coding Patterns
 
 Use the following patterns when designing components:
-- UI components should be a thin wrapper around data, they should handle local state only when necessary.
-- Try to flatten the UI state into a basic calculation, deriving data from props
+- UI components should be a thin wrapper around data, they should handle local state (like `useState`) only when necessary. Even then, you should evaluate if you can flatten the UI state into a basic calculation, deriving data from props.
 - Create a new component abstraction when you're nesting conditional logic or top-level if/else statements. Ternaries are reserved for small, easily readable logic.
 - When complex data manipulation and logic is necessary, make use of custom hooks.
 - Avoid passing whole objects to components when they only need a few properties. It will help clarify which information they rely on.
@@ -55,7 +54,7 @@ Use the following patterns when designing components:
     return <NumberInput max={maxSize} />;
   };  
   ```
-- Avoid putting dependent logic inside `useEffect`; it causes misdirection of what the logic is doing. Choose to explicitly define logic rather than depend on implicit reactive behavior
+- Avoid putting state-dependent logic inside `useEffect`; it causes misdirection of what the logic is doing. Choose to explicitly define logic rather than depend on implicit reactive behavior
 - Prefer state machines over multiple related `useState` calls. Multiple interdependent state variables make code harder to reason about.
 - Avoid `setTimeouts`. They are flaky and usually a _hack_, always provide a comment on _why_ you are using them. This doesn't affect if the "code runs" or not most of the time, but they can introduce subtle bugs that can grow into big issues that aren't obvious until someone goes in and has to spend a lot of time refactoring everything.
 
