@@ -5,7 +5,17 @@ import { checkAccessibility, render, screen } from '~/testUtils';
 import { ClusterHealthCard } from '../components/ClusterHealthCard';
 import { monitoringStatuses } from '../monitoringHelper';
 
+const NOW = new Date('2026-03-10T12:00:00Z').getTime();
+
 describe('<ClusterHealthCard />', () => {
+  beforeEach(() => {
+    jest.spyOn(Date, 'now').mockReturnValue(NOW);
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it.each(Object.entries(monitoringStatuses))(
     'is accessible with health status %s',
     async ([_statusKey, statusValue]) => {
@@ -16,7 +26,7 @@ describe('<ClusterHealthCard />', () => {
 
   describe('last check-in', () => {
     it('displays "Just now" for a recent check-in', () => {
-      const testDate = new Date();
+      const testDate = new Date(NOW - 30 * 1000); // 30 seconds ago
       render(<ClusterHealthCard status={monitoringStatuses.HEALTHY} lastCheckIn={testDate} />);
 
       expect(screen.getByText(/Last check-in:/)).toBeInTheDocument();
@@ -24,7 +34,7 @@ describe('<ClusterHealthCard />', () => {
     });
 
     it('displays relative time for a check-in minutes ago', () => {
-      const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+      const fiveMinutesAgo = new Date(NOW - 4.5 * 60 * 1000);
       render(
         <ClusterHealthCard status={monitoringStatuses.HEALTHY} lastCheckIn={fiveMinutesAgo} />,
       );
@@ -34,7 +44,7 @@ describe('<ClusterHealthCard />', () => {
     });
 
     it('displays relative time for a check-in hours ago', () => {
-      const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
+      const twoHoursAgo = new Date(NOW - 1.5 * 60 * 60 * 1000);
       render(<ClusterHealthCard status={monitoringStatuses.HEALTHY} lastCheckIn={twoHoursAgo} />);
 
       expect(screen.getByText(/Last check-in:/)).toBeInTheDocument();
@@ -42,7 +52,7 @@ describe('<ClusterHealthCard />', () => {
     });
 
     it('displays relative time for a check-in days ago', () => {
-      const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+      const threeDaysAgo = new Date(NOW - 2.5 * 24 * 60 * 60 * 1000);
       render(<ClusterHealthCard status={monitoringStatuses.HEALTHY} lastCheckIn={threeDaysAgo} />);
 
       expect(screen.getByText(/Last check-in:/)).toBeInTheDocument();
@@ -50,7 +60,7 @@ describe('<ClusterHealthCard />', () => {
     });
 
     it('accepts lastCheckIn as a timestamp', () => {
-      const timestamp = Date.now();
+      const timestamp = NOW - 10 * 1000; // 10 seconds ago
       render(<ClusterHealthCard status={monitoringStatuses.HEALTHY} lastCheckIn={timestamp} />);
 
       expect(screen.getByText(/Last check-in:/)).toBeInTheDocument();
@@ -58,7 +68,7 @@ describe('<ClusterHealthCard />', () => {
     });
 
     it('accepts lastCheckIn as a string', () => {
-      const dateString = new Date().toISOString();
+      const dateString = new Date(NOW - 10 * 1000).toISOString(); // 10 seconds ago
       render(<ClusterHealthCard status={monitoringStatuses.HEALTHY} lastCheckIn={dateString} />);
 
       expect(screen.getByText(/Last check-in:/)).toBeInTheDocument();
