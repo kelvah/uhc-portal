@@ -1,13 +1,19 @@
 import React from 'react';
+import dayjs from 'dayjs';
 
-import { Split, SplitItem, Title } from '@patternfly/react-core';
+import {
+  Split,
+  SplitItem,
+  Timestamp,
+  TimestampTooltipVariant,
+  Title,
+} from '@patternfly/react-core';
 import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
 import DisconnectedIcon from '@patternfly/react-icons/dist/esm/icons/disconnected-icon';
 import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
 import ExclamationTriangleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import InProgressIcon from '@patternfly/react-icons/dist/esm/icons/in-progress-icon';
 import UnknownIcon from '@patternfly/react-icons/dist/esm/icons/unknown-icon';
-import { DateFormat } from '@redhat-cloud-services/frontend-components';
 
 import { monitoringStatuses } from '../monitoringHelper';
 
@@ -30,13 +36,17 @@ const Element = ({
     <SplitItem>{icon}</SplitItem>
     <SplitItem isFilled>{status}</SplitItem>
     <SplitItem className="last-checkin">
-      {status === monitoringStatuses.UNKNOWN && (
-        // @ts-ignore
-        <ExclamationCircleIcon className="danger" size="md" />
-      )}
+      {status === monitoringStatuses.UNKNOWN && <ExclamationCircleIcon className="danger" />}
       {lastCheckIn !== undefined && (
         <>
-          Last check-in: <DateFormat date={lastCheckIn} type="relative" />
+          Last check-in:{' '}
+          <Timestamp
+            date={new Date(lastCheckIn)}
+            className="pf-v6-u-font-size-md"
+            tooltip={{ variant: TimestampTooltipVariant.default }}
+          >
+            {dayjs().to(dayjs(lastCheckIn))}
+          </Timestamp>
         </>
       )}
     </SplitItem>
