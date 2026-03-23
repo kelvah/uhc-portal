@@ -3008,7 +3008,7 @@
     classnames "^2.2.5"
     sanitize-html "^2.13.1"
 
-"@redhat-cloud-services/frontend-components@^7.0.45":
+"@redhat-cloud-services/frontend-components@^7.1.1":
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-7.1.1.tgz#f4591ad50aaef65092751105641d5791b491f854"
   integrity sha512-9xfY2ZgqaoiVESx0xcrnAYX61VQZHbroiIzaM7u0Fgp25aemJFf4xrST4c6Z/Wix6Xf3sG01YW7FF8kpSCBgRQ==
