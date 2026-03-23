@@ -19,10 +19,10 @@ describe('<ClusterHealthCard />', () => {
   describe('last check-in', () => {
     beforeAll(() => {
       jest.useFakeTimers();
-      jest.setSystemTime(new Date('2026-03-10T12:00:00Z').getTime());
+      jest.setSystemTime(NOW);
     });
 
-    it('displays "Just now" for a recent check-in', () => {
+    it('displays "a few seconds ago" for a recent check-in', () => {
       const testDate = new Date(NOW - 30 * 1000); // 30 seconds ago
       render(<ClusterHealthCard status={monitoringStatuses.HEALTHY} lastCheckIn={testDate} />);
 
