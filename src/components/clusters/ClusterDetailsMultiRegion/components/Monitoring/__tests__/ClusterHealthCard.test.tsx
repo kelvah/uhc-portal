@@ -8,14 +8,6 @@ import { monitoringStatuses } from '../monitoringHelper';
 const NOW = new Date('2026-03-10T12:00:00Z').getTime();
 
 describe('<ClusterHealthCard />', () => {
-  beforeEach(() => {
-    jest.spyOn(Date, 'now').mockReturnValue(NOW);
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
-  });
-
   it.each(Object.entries(monitoringStatuses))(
     'is accessible with health status %s',
     async ([_statusKey, statusValue]) => {
@@ -25,12 +17,17 @@ describe('<ClusterHealthCard />', () => {
   );
 
   describe('last check-in', () => {
+    beforeAll(() => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date('2026-03-10T12:00:00Z').getTime());
+    });
+
     it('displays "Just now" for a recent check-in', () => {
       const testDate = new Date(NOW - 30 * 1000); // 30 seconds ago
       render(<ClusterHealthCard status={monitoringStatuses.HEALTHY} lastCheckIn={testDate} />);
 
       expect(screen.getByText(/Last check-in:/)).toBeInTheDocument();
-      expect(screen.getByText('Just now')).toBeInTheDocument();
+      expect(screen.getByText('a few seconds ago')).toBeInTheDocument();
     });
 
     it('displays relative time for a check-in minutes ago', () => {
@@ -64,7 +61,7 @@ describe('<ClusterHealthCard />', () => {
       render(<ClusterHealthCard status={monitoringStatuses.HEALTHY} lastCheckIn={timestamp} />);
 
       expect(screen.getByText(/Last check-in:/)).toBeInTheDocument();
-      expect(screen.getByText('Just now')).toBeInTheDocument();
+      expect(screen.getByText('a few seconds ago')).toBeInTheDocument();
     });
 
     it('accepts lastCheckIn as a string', () => {
@@ -72,13 +69,17 @@ describe('<ClusterHealthCard />', () => {
       render(<ClusterHealthCard status={monitoringStatuses.HEALTHY} lastCheckIn={dateString} />);
 
       expect(screen.getByText(/Last check-in:/)).toBeInTheDocument();
-      expect(screen.getByText('Just now')).toBeInTheDocument();
+      expect(screen.getByText('a few seconds ago')).toBeInTheDocument();
     });
 
     it('does not display last check-in when lastCheckIn is undefined', () => {
       render(<ClusterHealthCard status={monitoringStatuses.HEALTHY} />);
 
       expect(screen.queryByText(/Last check-in:/)).not.toBeInTheDocument();
+    });
+
+    afterAll(() => {
+      jest.useRealTimers();
     });
   });
 
