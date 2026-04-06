@@ -5,7 +5,8 @@ import { CloudProviderType } from '~/components/clusters/wizards/common';
 import { GCPAuthType } from '~/components/clusters/wizards/osd/ClusterSettings/CloudProvider/types';
 import { FieldId } from '~/components/clusters/wizards/osd/constants';
 import { ReviewAndCreate } from '~/components/clusters/wizards/osd/ReviewAndCreate/ReviewAndCreate';
-import { checkAccessibility, render, screen } from '~/testUtils';
+import { Y_STREAM_CHANNEL } from '~/queries/featureGates/featureConstants';
+import { checkAccessibility, mockUseFeatureGate, render, screen, waitFor } from '~/testUtils';
 
 const formValues = {
   product: 'OSD',
@@ -123,6 +124,7 @@ const formValues = {
       },
     },
   },
+  version_channel: 'fast-4.16',
   name: 're-test',
   nodes_compute: 2,
   network_pod_cidr: '10.128.0.0/14',
@@ -262,6 +264,59 @@ describe('<ReviewAndCreate />', () => {
         expect(value).toBeInTheDocument();
         expect(value.textContent).toBe('Enabled');
       });
+    });
+  });
+
+  describe('Channel', () => {
+    it('is shown when Y_STREAM_CHANNEL feature gate is enabled', async () => {
+      mockUseFeatureGate([[Y_STREAM_CHANNEL, true]]);
+
+      render(
+        <Formik initialValues={formValues} onSubmit={() => {}}>
+          <ReviewAndCreate />
+        </Formik>,
+      );
+
+      expect(await screen.findByText('Channel')).toBeInTheDocument();
+      expect(screen.getByText('fast-4.16')).toBeInTheDocument();
+    });
+
+    it('is not shown when Y_STREAM_CHANNEL feature gate is disabled', async () => {
+      mockUseFeatureGate([[Y_STREAM_CHANNEL, false]]);
+
+      render(
+        <Formik initialValues={formValues} onSubmit={() => {}}>
+          <ReviewAndCreate />
+        </Formik>,
+      );
+
+      await waitFor(() => {
+        expect(screen.queryByText('Channel')).not.toBeInTheDocument();
+      });
+    });
+
+    it('shows no channels message when the version has no available channels', async () => {
+      mockUseFeatureGate([[Y_STREAM_CHANNEL, true]]);
+
+      const values = {
+        ...formValues,
+        cluster_version: {
+          ...formValues.cluster_version,
+          available_channels: [] as string[],
+        },
+        version_channel: '',
+      };
+
+      render(
+        <Formik initialValues={values} onSubmit={() => {}}>
+          <ReviewAndCreate />
+        </Formik>,
+      );
+
+      expect(await screen.findByText('Channel')).toBeInTheDocument();
+      expect(
+        screen.getByText('No channels available for the selected version'),
+      ).toBeInTheDocument();
     });
   });
 });
