@@ -220,6 +220,7 @@ const EditMachinePoolModal = ({
     currentMachinePool,
     setCurrentMPId,
     machineTypesResponse,
+    machineTypesErrorResponse,
     machineTypesLoading,
     tabKey: 1,
     initialTabContentShown: STARTING_TAB_KEY === 1,
@@ -356,6 +357,7 @@ const EditMachinePoolModal = ({
                       currentMPId={currentMachinePool?.id}
                       setCurrentMPId={setCurrentMPId}
                       machineTypesResponse={machineTypesResponse}
+                      machineTypesErrorResponse={machineTypesErrorResponse}
                       machineTypesLoading={machineTypesLoading}
                     />
                     <EditNodeCountSection
@@ -501,8 +503,8 @@ export const ConnectedEditMachinePoolModal = ({
       machinePoolsError={isMachinePoolError}
       machineTypesLoading={isMachineTypesLoading}
       machineTypesError={isMachineTypesError}
-      machinePoolsErrorResponse={machinePoolError.error}
-      machineTypesErrorResponse={machineTypesError.error}
+      machinePoolsErrorResponse={machinePoolError?.error}
+      machineTypesErrorResponse={machineTypesError?.error}
       onSave={() => {
         if (!isMachinePoolLoading) {
           machinePoolOrNodePoolsRefetch();
