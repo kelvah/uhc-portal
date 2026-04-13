@@ -15,6 +15,12 @@ describe('<LiveDateFormat />', () => {
     expect(screen.getByText('a few seconds ago')).toBeInTheDocument();
   });
 
+  it('applies className to the Timestamp component', () => {
+    render(<LiveDateFormat date={new Date()} className="pf-v6-u-font-size-md" />);
+    const timestamp = screen.getByText('a few seconds ago');
+    expect(timestamp).toHaveClass('pf-v6-u-font-size-md');
+  });
+
   afterAll(() => {
     jest.useRealTimers();
   });
