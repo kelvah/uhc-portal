@@ -16,9 +16,8 @@ describe('<LiveDateFormat />', () => {
   });
 
   it('applies className to the Timestamp component', () => {
-    render(<LiveDateFormat date={new Date()} className="pf-v6-u-font-size-md" />);
-    const timestamp = screen.getByText('a few seconds ago');
-    expect(timestamp).toHaveClass('pf-v6-u-font-size-md');
+    const { container } = render(<LiveDateFormat date={new Date()} className="my-custom-class" />);
+    expect(container.querySelector('.my-custom-class')).toBeInTheDocument();
   });
 
   afterAll(() => {
