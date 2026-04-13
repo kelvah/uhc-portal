@@ -24,14 +24,13 @@ const Element = ({
   lastCheckIn,
 }: {
   icon: React.ReactNode;
-  status: string | React.ReactNode;
+  status: React.ReactNode;
   lastCheckIn?: string | number | Date;
 }) => (
   <Split>
     <SplitItem>{icon}</SplitItem>
     <SplitItem isFilled>{status}</SplitItem>
     <SplitItem className="last-checkin">
-      {status === monitoringStatuses.UNKNOWN && <ExclamationCircleIcon className="danger" />}
       {lastCheckIn !== undefined && (
         <>
           Last check-in:{' '}
