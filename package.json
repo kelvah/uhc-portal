@@ -212,7 +212,7 @@
     "build": "fec build",
     "build:prod": "MODE=prod npm run build",
     "build:prod:monitored": "run/build-prod-monitored.sh",
-    "lint": "eslint src 'run/*js' --ext mjs,js,jsx,ts,tsx",
+    "lint": "eslint src run",
     "lint-prettier": "npm run lint && npm run prettier",
     "lint-staged": "lint-staged",
     "prettier": "prettier --check '{src,cypress,scripts}/**/*.{js,ts,mjs,jsx,tsx}' 'run/*js'",
