@@ -212,8 +212,6 @@
     "build": "fec build",
     "build:prod": "MODE=prod npm run build",
     "build:prod:monitored": "run/build-prod-monitored.sh",
-    "insights-proxy": "make insights-proxy-check && run/insights-proxy.sh",
-    "stop-insights-proxy": "run/podman-or-docker.sh kill insightsproxy; run/podman-or-docker.sh rm --force insightsproxy; true",
     "lint": "eslint src run",
     "lint-prettier": "npm run lint && npm run prettier",
     "lint-staged": "lint-staged",
